@@ -21,14 +21,16 @@ def update_callback(data):
     print(data)
 
 if __name__ == '__main__':
+    
+    tokenId = "Insert token ID here"
+    tokenSecret = "Insert token secret here"
 
-
-    tap = liquidtap.Client(821826, '+RJdKszJ/kWOAMhZKvAWzMJ3sWvuZduygBkH/h04pzzye8QeP81BwfKDkLR7egNOHvn5jwm1Jm6sbwmUhKT7fw==')
+    tap = 'liquidtap'.Client(tokenId, tokenSecret)
     tap.pusher.connect()
 
     channel = tap.subscribe("product_cash_usdjpy_5")
 
-    channel.bind('my_event', update_callback)
+    channel.bind('updated', update_callback)
 
     while True:
         time.sleep(1)

@@ -9,8 +9,8 @@ def readme():
 
 setup(
     name="liquidtap",
-    version="1.0.1",
-    description="LiquidTap websocket client for python",
+    version="1.0.0",
+    description="QuoineFinancial/LiquidTap websocket client for Python",
     long_description=readme(),
     long_description_content_type='text/markdown',
     keywords="pusher websocket client liquid liquidapi liquidtap",
