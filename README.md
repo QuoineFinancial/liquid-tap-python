@@ -13,15 +13,19 @@ pip3 install liquidtap
 ```
 The library can connect to public channels without token credentials.
 ```python
-
 import liquidtap
 
-tap = liquidtap.Client()
-tap.pusher.connect()
+def update_callback(data):
+    print(data)
 
-channel = tap.subscribe("product_cash_usdjpy_5")
+def on_connect(data):
+    tap.pusher.subscribe("price_ladders_cash_btcjpy_buy").bind('updated', update_callback)
 
-channel.bind('updated', update_callback)
+if __name__ == "__main__":
+    tap = liquidtap.Client()
+    tap.pusher.connection.bind('pusher:connection_established', on_connect)
+    tap.pusher.connect()
+
 ```
 
 
@@ -31,11 +35,16 @@ channel.bind('updated', update_callback)
 
 import liquidtap
 
-tap = liquidtap.Client("insert token id", "insert token secret")
-tap.pusher.connect()
+def update_callback(data):
+    print(data)
 
-# Refer to profile page for user_id: https://app.liquid.com/settings/profile
-channel = tap.subscribe("user_<user_id>")
+def on_connect(data):
+    print(data)
+    tap.pusher.subscribe("price_ladders_cash_btcjpy_buy").bind('updated', update_callback)
 
-channel.bind('updated', update_callback)
+if __name__ == "__main__":
+    tap = liquidtap.Client("insert token id", "insert token secret")
+    tap.pusher.connection.bind('pusher:connection_established', on_connect)
+    tap.pusher.connect()
+
 ```

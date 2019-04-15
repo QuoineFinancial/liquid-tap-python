@@ -19,8 +19,6 @@ def stringify64(data):
 def create_sha256_signature(message, secret):
     secret = secret.encode('utf-8') # convert to byte array
     message = message.encode('utf-8')
-    print(message)
-    print(secret)
     return hmac.new(secret, message, hashlib.sha256).digest()
 
 def createJWT(tokenId, tokenSecret):
@@ -31,7 +29,6 @@ def createJWT(tokenId, tokenSecret):
     }, tokenSecret)
 
 def encodeJWT(data, secret):
-    print(data)
     header = {
       'typ': 'JWT',
       'alg': 'HS256'
