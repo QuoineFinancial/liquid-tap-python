@@ -154,7 +154,7 @@ class Connection(Thread):
                 if params['event'] in self.event_callbacks.keys():
                     for func, args, kwargs in self.event_callbacks[params['event']]:
                         try:
-                            func(params.get('data', None), *args, **kwargs)
+                            func(params['data'], *args, **kwargs)
                         except Exception:
                             self.logger.exception("Callback raised unhandled")
                 else:
@@ -164,7 +164,7 @@ class Connection(Thread):
                 # so it can be handled by the appropriate channel.
                 self.event_handler(
                     params['event'],
-                    params.get('data'),
+                    params['data'],
                     params['channel']
                 )
 
@@ -215,7 +215,7 @@ class Connection(Thread):
         if channel_name:
             event['channel'] = channel_name
 
-        self.logger.info("Connection: Sending event - %s" % event)
+        self.logger.info("Connection: Sending event - %s" % json.dumps(event))
         try:
             self.socket.send(json.dumps(event))
         except Exception as e:
