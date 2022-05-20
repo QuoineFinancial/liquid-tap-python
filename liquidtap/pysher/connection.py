@@ -69,7 +69,7 @@ class Connection(Thread):
         Thread.__init__(self, **thread_kwargs)
         self.daemon = daemon
         self.name = "PysherEventLoop"
-    
+
     def bind(self, event_name, callback, *args, **kwargs):
         """Bind an event to a callback
 
@@ -125,21 +125,22 @@ class Connection(Thread):
             self.socket.keep_running = True
             self.socket.run_forever(**self.socket_kwargs)
 
-    def _on_open(self):
+    def _on_open(self, *args):
         self.logger.info("Connection: Connection opened")
-                
+
         # Send a ping right away to inform that the connection is alive. If you
         # don't do this, it takes the ping interval to subcribe to channel and
         # events
         self.send_ping()
         self._start_timers()
 
-    def _on_error(self, error):
-        self.logger.info("Connection: Error - %s" % error)
+    def _on_error(self, *args):
+        self.logger.info("Connection: Error - %s" % args[-1])
         self.state = "failed"
         self.needs_reconnect = True
 
-    def _on_message(self, message):
+    def _on_message(self, *args):
+        message = args[-1]
         self.logger.info("Connection: Message - %s" % message)
 
         # Stop our timeout timer, since we got some data
